@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+shadowJar {
+    archiveBaseName.set('laifyapi')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+
+    compileJava.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = 'UTF-8'
+        }
+    }
+
+    jar {
+        manifest {
+            attributes 'Main-Class': 'de.laify.LaifyAPI', 'Multi-Release': true
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "http://repo.endervillage.de:8081/repository/PlugCloudApi/"
+            credentials {
+                username = "Admin+"
+                password = "vydsus-jyjjyf-5hoHbo"
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url 'https://jitpack.io' }
+
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+
+}
+
+
+
+build {
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = 'UTF-8'
+        }
+    }
+}
+
+dependencies {
+    implementation "net.kyori:adventure-text-minimessage:4.13.1"
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    implementation 'org.jline:jline:3.23.0'
+
+    implementation 'org.mongodb:mongodb-driver-reactivestreams:1.13.1'
+
+    implementation "net.dv8tion:JDA:5.0.0-beta.12"
+
+    implementation 'dev.hollowcube:minestom-ce:517b195b5e'
+    implementation 'dev.hollowcube:minestom-ce-extensions:1.2.0'
+
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.86.Final'
+
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    compileOnly 'com.velocitypowered:velocity-api:3.1.1'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.1.1'
+}
